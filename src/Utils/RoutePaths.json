@@ -1,0 +1,12 @@
+{
+  "home": "home",
+  "signup": "signup",
+  "signin": "signin",
+  "dashboard": "dashboard",
+  "profile": "profile",
+  "b2bSales": "b2bSales",
+  "b2cSales": "b2cSales",
+  "inventory": "inventory",
+  "expenses": "expenses",
+  "createBill": "createBill"
+}
