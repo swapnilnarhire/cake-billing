@@ -1,9 +1,7 @@
 import {
   Box,
   Button,
-  Checkbox,
   FormControlLabel,
-  FormLabel,
   Grid,
   InputAdornment,
   OutlinedInput,
@@ -12,7 +10,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -47,23 +45,99 @@ const names = [
   "KULFI FALUDA CAKE",
   "KESAR BADAM CAKE",
   "KULFI FALUDA CAKE",
-  "KULFI FALUDA CAKE",
-  "KULFI FALUDA CAKE",
-  "KULFI FALUDA CAKE",
-  "KULFI FALUDA CAKE",
 ];
 
 export default function CreateBill() {
-  const [selectCake, setSelectCake] = React.useState("");
+  const [selectCake, setSelectCake] = React.useState();
   const [moreDetails, setMoreDetails] = React.useState(false);
   const [candles, setCandles] = React.useState(0);
-  const [sparkles, setSparkles]=React.useState(0);
-  const [balloons, setBalloons]=React.useState(0)
+  const [sparkles, setSparkles] = React.useState(0);
+  const [balloons, setBalloons] = React.useState(0);
+  const [price, setPrice] = React.useState();
+  const [weight, setWeight] = React.useState();
+  const [quantity, setQuantity] = React.useState();
+  const [saleMode, setSaleMode] = React.useState();
+  const [paymentType, setPaymentType] = React.useState();
 
+  const handleCake = (event) => {
+    console.log(event.target.value);
 
-  const handleChange = (event) => {
     setSelectCake(event.target.value);
   };
+  const handlePrice = (event) => {
+    console.log(event.target.value);
+
+    setPrice(event.target.value);
+  };
+  const handleWeight = (event) => {
+    console.log(event.target.value);
+
+    setWeight(event.target.value);
+  };
+  const handleQuantity = (event) => {
+    console.log(event.target.value);
+
+    setQuantity(event.target.value);
+  };
+  const handleSaleMode = (event) => {
+    console.log(event.target.value);
+    setSaleMode(event.target.value);
+    if (event.target.value !== "counter") {
+      setPaymentType("online");
+    }
+  };
+  const handlePayment = (event) => {
+    console.log(event.target.value);
+    setPaymentType(event.target.value);
+  };
+  const handleCandles = (event) => {
+    console.log(event.target.value);
+
+    setCandles(event.target.value);
+  };
+  const handleBalloons = (event) => {
+    console.log(event.target.value);
+
+    setBalloons(event.target.value);
+  };
+  const handleSparkles = (event) => {
+    console.log(event.target.value);
+
+    setSparkles(event.target.value);
+  };
+
+  // useEffect(() => {
+  //   if (saleMode) {
+  //     console.log("useEffect",saleMode)
+  //     if (saleMode !== "counter") {
+  //       setPaymentType("online");
+  //     }
+  //   } else {
+  //     setPaymentType();
+  //   }
+  // }, [saleMode]);
+
+ const handleSubmit=()=>{
+  if(selectCake && paymentType && price && weight && quantity && saleMode){
+    const d = new Date();
+    alert(d);
+    // clearing input field
+    setPaymentType(null)
+    setPrice(null)
+    setQuantity(null)
+    setSaleMode(null)
+    setBalloons(0)
+    setCandles(0)
+    setSparkles(0)
+    setWeight(null)
+    setSelectCake(null)
+    setQuantity(null)
+  }
+  else{
+    alert("Please fill the required fields");
+  }
+ }
+
   return (
     <Box>
       <Typography variant="h3" align="center" component={Paper}>
@@ -79,13 +153,15 @@ export default function CreateBill() {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} container justifyContent="space-around">
             <FormControl item>
-              {/* <FormLabel id="demo-row-radio-buttons-group-label">
+              {/* <FormLabel id="saleMode">
                Billing Method
               </FormLabel> */}
               <RadioGroup
                 row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
+                aria-labelledby="saleMode"
+                name="saleMode"
+                onChange={handleSaleMode}
+                value={saleMode}
               >
                 <FormControlLabel
                   value="counter"
@@ -116,34 +192,39 @@ export default function CreateBill() {
           </Grid>
           <Grid item xs={12} sm={6} container justifyContent="space-around">
             <FormControl item>
-              {/* <FormLabel id="demo-row-radio-buttons-group-label">
+              {/* <FormLabel id="paymentMode">
                Billing Method
               </FormLabel> */}
               <RadioGroup
                 row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
+                aria-labelledby="paymentMode"
+                name="paymentMode"
+                onChange={handlePayment}
+                value={paymentType}
               >
                 <FormControlLabel
                   value="phonepe"
                   control={<Radio />}
                   label={<SiPhonepe fontSize={"32px"} />}
                   labelPlacement="bottom"
+                  disabled={saleMode !== "counter" ? true : false}
                 />
                 <FormControlLabel
                   value="gpay"
                   control={<Radio />}
                   label={<SiGooglepay fontSize={"32px"} />}
                   labelPlacement="bottom"
+                  disabled={saleMode !== "counter" ? true : false}
                 />
                 <FormControlLabel
                   value="cash"
                   control={<Radio />}
                   label={<GiMoneyStack fontSize={"32px"} />}
                   labelPlacement="bottom"
+                  disabled={saleMode !== "counter" ? true : false}
                 />
                 <FormControlLabel
-                  value="fnppanel"
+                  value="online"
                   control={<Radio />}
                   label={<MdSettingsSystemDaydream fontSize={"32px"} />}
                   labelPlacement="bottom"
@@ -153,16 +234,15 @@ export default function CreateBill() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-helper-label">
-                Select Cake
-              </InputLabel>
+              <InputLabel id="cakeName">Select Cake</InputLabel>
               <Select
-                labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
+                labelId="cakeName"
+                id="cakeName"
+                name="cakeName"
                 value={selectCake}
                 label="Cake"
                 autoWidth
-                onChange={handleChange}
+                onChange={handleCake}
               >
                 <MenuItem disabled value="">
                   <em>Placeholder</em>
@@ -178,66 +258,61 @@ export default function CreateBill() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="outlined-adornment-weight">
-                Weight
-              </InputLabel>
+              <InputLabel htmlFor="weight">Weight</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-weight"
+                id="weight"
                 startAdornment={
-                  <InputAdornment position="start">Gm/kg</InputAdornment>
+                  <InputAdornment position="start">gm/kg</InputAdornment>
                 }
                 label="Weight"
+                name="weight"
+                onChange={handleWeight}
+                value={weight}
               />
-              <FormHelperText id="outlined-weight-helper-text">
-                Weight
-              </FormHelperText>
+              <FormHelperText id="weight">Weight</FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="outlined-adornment-amount">
-                Amount
-              </InputLabel>
+              <InputLabel htmlFor="price">Amount</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-amount"
+                id="price"
                 startAdornment={
                   <InputAdornment position="start">
                     &#8377; {/* || &#x20B9; */}
                   </InputAdornment>
                 }
                 label="Amount"
+                name="price"
+                value={price}
+                onChange={handlePrice}
               />
-              <FormHelperText id="outlined-amount-helper-text">
-                Amount
-              </FormHelperText>
+              <FormHelperText id="price">Amount</FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="outlined-adornment-quantity">
-                Quantity
-              </InputLabel>
+              <InputLabel htmlFor="quantity">Quantity</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-quantity"
+                id="quantity"
                 startAdornment={
                   <InputAdornment position="start">QTY</InputAdornment>
                 }
                 label="Quantity"
                 type="number"
+                name="quantity"
+                value={quantity}
+                onChange={handleQuantity}
               />
-              <FormHelperText id="outlined-quantity-helper-text">
-                Quantity
-              </FormHelperText>
+              <FormHelperText id="quantity">Quantity</FormHelperText>
             </FormControl>
           </Grid>
 
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="outlined-adornment-sparkles">
-                Sparkles
-              </InputLabel>
+              <InputLabel htmlFor="sparkles">Sparkles</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-sparkles"
+                id="sparkles"
                 startAdornment={
                   <InputAdornment position="start">
                     <GiSparkles />
@@ -245,20 +320,18 @@ export default function CreateBill() {
                 }
                 label="Sparkles"
                 type="number"
+                name="sparkles"
                 value={sparkles}
+                onChange={handleSparkles}
               />
-              <FormHelperText id="outlined-sparkles-helper-text">
-                Sparkles
-              </FormHelperText>
+              <FormHelperText id="sparkles">Sparkles</FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="outlined-adornment-balloons">
-                Balloons
-              </InputLabel>
+              <InputLabel htmlFor="balloons">Balloons</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-balloons"
+                id="balloons"
                 startAdornment={
                   <InputAdornment position="start">
                     <GiBalloons />
@@ -267,31 +340,28 @@ export default function CreateBill() {
                 label="Balloons"
                 type="number"
                 value={balloons}
+                onChange={handleBalloons}
               />
-              <FormHelperText id="outlined-balloons-helper-text">
-                Balloons
-              </FormHelperText>
+              <FormHelperText id="balloons">Balloons</FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="outlined-adornment-candles">
-                Candles
-              </InputLabel>
+              <InputLabel htmlFor="candles">Candles</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-candles"
+                id="candles"
                 startAdornment={
                   <InputAdornment position="start">
                     <GiCandles />
                   </InputAdornment>
                 }
                 label="Candles"
+                name="candles"
                 type="number"
                 value={candles}
+                onChange={handleCandles}
               />
-              <FormHelperText id="outlined-candles-helper-text">
-                Candles
-              </FormHelperText>
+              <FormHelperText id="candles">Candles</FormHelperText>
             </FormControl>
           </Grid>
           {!moreDetails ? (
@@ -333,9 +403,7 @@ export default function CreateBill() {
               item
               color="primary"
               variant="contained"
-              onClick={() => {
-                setMoreDetails(!moreDetails);
-              }}
+              onClick={handleSubmit}
             >
               Submit
             </Button>
