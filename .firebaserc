@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "laxmi-cakes-2d8c1"
-  }
+    "default": "laxmi-cakes-2d8c1",
+    "stage": "laxmi-cakes-2d8c1"
+  },
+  "targets": {},
+  "etags": {}
 }
